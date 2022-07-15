@@ -1,0 +1,9 @@
+@use "sass:math";
+@import url("https://use.typekit.net/dwb7ucc.css");
+@import './variables.scss';
+@import './reset.scss';
+// @import './elements.scss';
+
+html,body{width:100%;height:100%;-ms-overflow-style:none;
+  &::-webkit-scrollbar{display:none}
+}
