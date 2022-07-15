@@ -1,11 +1,15 @@
 // import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { RecoilRoot } from 'recoil'
 import { SEO } from '~/common/seo'
 
 import '~/styles/globals.scss'
 
 function App({ Component, pageProps }: AppProps) {
+  const queryClient = new QueryClient()
   // const [isProduction, setIsProduction] = useState<boolean>(false)
   // useEffect(() => {
   //   // const { hostname } = window.location
@@ -137,8 +141,15 @@ function App({ Component, pageProps }: AppProps) {
         </>
       )} */}
 
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <RecoilRoot>
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <Component {...pageProps} />
+          </RecoilRoot>
+        </Hydrate>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </>
   )
 }
